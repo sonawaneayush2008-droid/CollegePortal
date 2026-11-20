@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-MXJ3GXP6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>ABC College Student Portal ***</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">>
+
+
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <header>
+
+        <h2>ABC COLLEGE</h2>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#students">Students</a>
+            <a href="#courses">Courses</a>
+            <a href="#faculty">Faculty</a>
+        </nav>
+
+    </header>
+
+
+    <!-- Home Section -->
+
+    <section class="hero" id="home">
+
+        <h1>Welcome to ABC College </h1>
+
+        <p>Student Information & Academic Portal</p>
+
+        <a href="#students" class="btn">Explore Portal</a>
+
+    </section>
+
+
+    <!-- Dashboard -->
+
+    <section class="dashboard">
+
+        <div class="card">
+
+            <h2 id="studentCount">0</h2>
+
+            <p>Total Students</p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2 id="courseCount">0</h2>
+
+            <p>Available Courses</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Student Section -->
+
+    <section id="students">
+
+        <h2>Student Directory</h2>
+
+        <div id="studentData" class="content">
+
+            Loading students...
+
+        </div>
+
+    </section>
+
+
+    <!-- Courses Section -->
+
+    <section id="courses">
+
+        <h2>Available Courses</h2>
+
+        <div id="courseData" class="content">
+
+            Loading courses...
+
+        </div>
+
+    </section>
+
+
+    <!-- Faculty Section -->
+
+    <section id="faculty">
+
+        <h2>Our Faculty</h2>
+
+        <div id="facultyData" class="content">
+
+            Loading faculty...
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>(c) 2026 ABC College</p>
+
+        <p>Student Information Portal</p>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+
+    <script>
+
+        // GET API: Fetch Students
+
+        fetch('/api/students')
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            document.getElementById('studentCount').innerText =
+                data.length;
+
+            let output = '';
+
+            data.forEach(student => {
+
+                output += `
+
+                    <div class="card">
+
+                        <h3>${student.name}</h3>
+
+                        <p>Course: ${student.course}</p>
+
+                        <p>City: ${student.city}</p>
+
+                        <p>Email: ${student.email}</p>
+
+                    </div>
+
+                `;
+
+            });
+
+            document.getElementById('studentData').innerHTML =
+                output;
+
+        })
+
+        .catch(error => {
+
+            document.getElementById('studentData').innerText =
+                'Unable to load students.';
+
+            console.error(error);
+
+        });
+
+
+        // GET API: Fetch Courses
+
+        fetch('/api/courses')
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            document.getElementById('courseCount').innerText =
+                data.length;
+
+            let output = '';
+
+            data.forEach(course => {
+
+                output += `
+
+                    <div class="card">
+
+                        <h3>${course.name}</h3>
+
+                        <p>Duration: ${course.duration}</p>
+
+                    </div>
+
+                `;
+
+            });
+
+            document.getElementById('courseData').innerHTML =
+                output;
+
+        })
+
+        .catch(error => {
+
+            document.getElementById('courseData').innerText =
+                'Unable to load courses.';
+
+            console.error(error);
+
+        });
+
+
+        // GET API: Fetch Faculty
+
+        fetch('/api/faculty')
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            let output = '';
+
+            data.forEach(person => {
+
+                output += `
+
+                    <div class="card">
+
+                        <h3>${person.name}</h3>
+
+                        <p>Subject: ${person.subject}</p>
+
+                    </div>
+
+                `;
+
+            });
+
+            document.getElementById('facultyData').innerHTML =
+                output;
+
+        })
+
+        .catch(error => {
+
+            document.getElementById('facultyData').innerText =
+                'Unable to load faculty.';
+
+            console.error(error);
+
+        });
+
+    </script>
+
+</body>
+
+</html>
